@@ -7,7 +7,7 @@ An API for detecting profanity in text using Django and Django REST framework.
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/profanity-detector-api.git
+    git clone https://github.com/botsarefuture/profanity-detector-api.git
     ```
 
 2. Install dependencies:
@@ -63,6 +63,3 @@ If you'd like to contribute to this project, feel free to submit a pull request.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-```
-
-Replace placeholders like `yourusername`, `profanity-detector-api`, and update URLs accordingly. Add more sections or details based on your project's requirements.
