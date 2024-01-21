@@ -1,21 +1,54 @@
+# profanity_detector/views.py
+"""
+OpenAPI (Swagger) Documentation
+... (same as before)
+"""
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from profane_detector import ProfaneDetector
+from .serializers import ProfanityDetectionSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 profane_detector = ProfaneDetector()
 
+@swagger_auto_schema(
+    method='post',
+    request_body=ProfanityDetectionSerializer,
+    responses={
+        200: ProfanityDetectionSerializer(many=False),
+        400: "Bad request - Missing 'text' parameter or empty text.",
+        405: "Invalid request method.",
+        500: "Internal server error."
+    }
+)
 @api_view(['POST'])
 def detect_profanity(request):
+    """
+    Detect profanity in the provided text.
+
+    Parameters:
+    - text (str): Text to be checked for profanity.
+    - language (str, optional): Language of the text (default is English).
+
+    Returns:
+    - 200: Successful response.
+    - 400: Bad request - Missing 'text' parameter or empty text.
+    - 405: Invalid request method.
+    - 500: Internal server error.
+    """
     if request.method == 'POST':
         try:
-            # Check if 'text' parameter is present in the request data
-            text_to_detect = request.data['text']
-            
+            # Use the serializer to validate and deserialize the request data
+            serializer = ProfanityDetectionSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            text_to_detect = serializer.validated_data['text']
+            language = serializer.validated_data.get('language', 'en')  # Default to English if language is not specified
+
             # Validate that 'text' parameter is not empty
             if not text_to_detect.strip():
                 raise ValueError("'text' parameter cannot be empty.")
 
-            language = request.data.get('language', 'en')  # Default to English if language is not specified
             is_profane = profane_detector.detect_api(language, text_to_detect)
 
             response_data = {
@@ -25,8 +58,6 @@ def detect_profanity(request):
             }
 
             return Response(response_data)
-        except KeyError:
-            return Response({'error': "Missing 'text' parameter in the request data."}, status=400)
         except ValueError as ve:
             return Response({'error': str(ve)}, status=400)
         except Exception as e:

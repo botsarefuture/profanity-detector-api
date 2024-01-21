@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
-]
+    'rest_framework',
+    'drf_yasg',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +50,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# profanity_detector_project/settings.py
+SWAGGER_SETTINGS = {
+    'DEFAULT_INFO': 'profanity_detector_project.urls.openapi_info',
+}
+
 
 ROOT_URLCONF = 'profanity_detector_project.urls'
 
