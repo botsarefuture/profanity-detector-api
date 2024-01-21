@@ -1,0 +1,79 @@
+openapi: 3.0.1
+info:
+  title: Profanity Detection API
+  description: An official API designed by LuovaClub for the purpose of detecting profanity in text.
+  contact:
+    email: vuoreol@gmail.com
+  license:
+    name: MIT License
+  version: v1
+servers:
+  - url: /api
+  - url: https://profanity.luova.club/api
+paths:
+  /detect-profanity/:
+    post:
+      summary: Detect Profanity
+      description: Endpoint to identify and analyze profanity in the provided text.
+      tags:
+        - detect-profanity
+      operationId: detect-profanity_create
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfanityDetection'
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfanityDetectionResponse'
+        '400':
+          description: Bad request - Missing 'text' parameter or empty text.
+          content: {}
+        '405':
+          description: Invalid request method.
+          content: {}
+        '500':
+          description: Internal server error.
+          content: {}
+      x-codegen-request-body-name: data
+components:
+  schemas:
+    ProfanityDetection:
+      required:
+        - text
+      type: object
+      properties:
+        text:
+          title: Text
+          minLength: 1
+          type: string
+        language:
+          title: Language
+          minLength: 2
+          type: string
+          default: en
+
+    ProfanityDetectionResponse:
+      type: object
+      properties:
+        text:
+          title: Text
+          minLength: 1
+          type: string
+        language:
+          title: Language
+          minLength: 2
+          type: string
+          default: en
+        profanity_detected:
+          title: Profanity Detected
+          type: boolean
+          readOnly: true
+x-original-swagger-version: '2.0'
+x-git-repository: https://github.com/botsarefuture/profanity-detector-api
+
