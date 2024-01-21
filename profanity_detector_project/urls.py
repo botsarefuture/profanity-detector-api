@@ -5,14 +5,17 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-schema_view = get_schema_view(
-    openapi.Info(
+openapi_info = openapi.Info(
         title="Profanity Detector API",
         default_version='v1',
         description="An API for detecting profanity in text.",
         contact=openapi.Contact(email="vuoreol@gmail.com"),
         license=openapi.License(name="MIT License"),
-    ),
+    )
+
+schema_view = get_schema_view(
+    openapi_info,
+    public=True,
     permission_classes=(permissions.AllowAny,),
 )
 
@@ -25,4 +28,10 @@ urlpatterns = [
     re_path(r'^$', RedirectView.as_view(url='/swagger/', permanent=True)),
 ]
 
-
+# Add servers
+schema_view._servers = [
+    {"url": "http://localhost:8000", "description": "Local development server"},
+    {"url": "https://api.profanity.luova.club", "description": "Production server"},
+    # Add more servers as needed
+    
+]
