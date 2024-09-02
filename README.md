@@ -2,6 +2,10 @@
 
 An API for detecting profanity in text using Django and Django REST framework.
 
+The Profanity Detector this uses is located here: https://github.com/botsarefuture/profane_detector.
+
+**Note: in future this is going to use [HaSpDe](https://github.com/HateSpeechDetection)**
+
 ## Installation
 
 1. Clone the repository:
